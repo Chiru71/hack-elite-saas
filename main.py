@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from dotenv import load_dotenv
+from pathlib import Path
 
 # Load environment variables
 load_dotenv()
@@ -14,14 +15,14 @@ app = FastAPI(
 )
 
 # Serves static files from the 'hack-elite-site' directory
-STATIC_DIR = os.path.join(os.getcwd(), "hack-elite-site")
+STATIC_DIR = Path(__file__).parent / "hack-elite-site"
 
-if os.path.exists(STATIC_DIR):
-    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+if STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="static")
 else:
     @app.get("/")
     async def root():
-        return {"message": "Welcome to HACK-eLITE AI SaaS. Static site directory not found.", "status": "initializing"}
+        return {"message": f"Welcome to HACK-eLITE. Static dir not found at {STATIC_DIR}", "status": "initializing"}
 
 # Standard entrypoint for deployment tools
 if __name__ == "__main__":

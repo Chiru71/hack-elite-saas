@@ -1,0 +1,9 @@
+# Requirements
+pandas
+requests
+python-dotenv
+beautifulsoup4
+markdown
+openai
+supabase
+tavily-python

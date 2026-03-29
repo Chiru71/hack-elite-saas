@@ -1,4 +1,4 @@
-# 🍽️ Food Redistribution Platform {RE-SERVE} – README
+# 🍽️ Food Redistribution Platform  – README
 
 ## 📌 Overview
 

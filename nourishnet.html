@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NourishNet — Redistribute. Reduce. Revive.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080A08;
+    --bg2: #0E110E;
+    --bg3: #141814;
+    --surface: #1A1F1A;
+    --surface2: #222822;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.15);
+    --text: #F0EDE6;
+    --text-muted: #8A9188;
+    --text-dim: #505850;
+    --accent: #B8F03C;
+    --accent-dim: rgba(184,240,60,0.12);
+    --accent-warm: #F0A83C;
+    --accent-warm-dim: rgba(240,168,60,0.12);
+    --accent-red: #F04C3C;
+    --accent-blue: #3CB8F0;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+    --font-display: 'Fraunces', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,10,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--text); }
+
+  .topbar-center { flex: 1; display: flex; gap: 8px; align-items: center; }
+
+  .location-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 7px 14px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .location-btn:hover { border-color: var(--border-bright); color: var(--text); }
+  .location-btn .dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; }
+
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--text); border-color: var(--border-bright); }
+
+  .points-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(184,240,60,0.25);
+    border-radius: 40px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .points-badge svg { width: 14px; height: 14px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: #0E1A00; font-weight: 600; }
+  .btn-primary:hover { background: #ceff50; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(184,240,60,0.25); }
+  .btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+  .btn-ghost:hover { border-color: var(--border-bright); color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 60px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(184,240,60,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 60%, rgba(240,168,60,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 30% 30% at 20% 80%, rgba(60,184,240,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 40px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag .pulse { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 8vw, 90px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    text-align: center;
+    max-width: 900px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero h1 .line2 { display: block; color: var(--text-muted); }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 17px;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 520px;
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 64px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -1px;
+  }
+  .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* ── ROLE SELECTION ── */
+  .section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+  .section-full { padding: 80px 24px; }
+
+  .section-header { text-align: center; margin-bottom: 52px; }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--accent-warm); }
+  .section-sub { margin-top: 14px; font-size: 16px; color: var(--text-muted); max-width: 480px; margin-left: auto; margin-right: auto; }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .role-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    group: true;
+  }
+  .role-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-glow, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .role-card:hover { border-color: var(--card-accent, var(--border-bright)); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .role-card:hover::before { opacity: 1; }
+  .role-card.active { border-color: var(--card-accent); background: var(--card-bg); }
+
+  .role-card[data-role="provider"] { --card-accent: var(--accent); --card-glow: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,240,60,0.08) 0%, transparent 60%); --card-bg: rgba(184,240,60,0.05); }
+  .role-card[data-role="consumer"] { --card-accent: var(--accent-warm); --card-glow: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,168,60,0.08) 0%, transparent 60%); --card-bg: rgba(240,168,60,0.05); }
+  .role-card[data-role="volunteer"] { --card-accent: var(--accent-blue); --card-glow: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(60,184,240,0.08) 0%, transparent 60%); --card-bg: rgba(60,184,240,0.05); }
+  .role-card[data-role="sponsor"] { --card-accent: #C084FC; --card-glow: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(192,132,252,0.08) 0%, transparent 60%); --card-bg: rgba(192,132,252,0.05); }
+
+  .role-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    background: var(--surface2);
+    transition: transform 0.3s;
+  }
+  .role-card:hover .role-icon { transform: scale(1.1) rotate(-3deg); }
+
+  .role-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .role-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .role-arrow {
+    position: absolute;
+    top: 28px; right: 24px;
+    width: 32px; height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--text-dim);
+    transition: all 0.3s;
+  }
+  .role-card:hover .role-arrow { border-color: var(--card-accent); color: var(--card-accent); transform: rotate(45deg); }
+
+  /* ── CATEGORIES ── */
+  .categories-wrap {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    margin-bottom: 32px;
+  }
+  .category-tabs::-webkit-scrollbar { display: none; }
+
+  .cat-tab {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cat-tab.active, .cat-tab:hover { background: var(--accent-dim); border-color: rgba(184,240,60,0.3); color: var(--accent); }
+
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .food-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .food-card:hover { border-color: var(--border-bright); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(0,0,0,0.35); }
+
+  .food-card-img {
+    height: 140px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .food-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    padding: 4px 10px;
+    border-radius: 40px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-free { background: rgba(184,240,60,0.15); color: var(--accent); border: 1px solid rgba(184,240,60,0.25); }
+  .badge-points { background: rgba(240,168,60,0.15); color: var(--accent-warm); border: 1px solid rgba(240,168,60,0.25); }
+  .badge-paid { background: rgba(60,184,240,0.15); color: var(--accent-blue); border: 1px solid rgba(60,184,240,0.25); }
+  .badge-expiring { background: rgba(240,76,60,0.15); color: var(--accent-red); border: 1px solid rgba(240,76,60,0.25); }
+
+  .food-card-body { padding: 14px 16px; }
+  .food-card-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .food-card-body .meta { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+  .food-card-body .meta span { display: flex; align-items: center; gap: 3px; }
+
+  /* ── DASHBOARDS PREVIEW ── */
+  .tabs-nav {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 40px;
+  }
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 40px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: var(--accent); color: #0E1A00; font-weight: 600; }
+
+  .dashboard-panel { display: none; }
+  .dashboard-panel.active { display: block; }
+
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 640px) { .dash-grid { grid-template-columns: 1fr; } }
+
+  .dash-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .dash-card h5 {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .dash-card .big-num {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: -2px;
+    color: var(--text);
+  }
+  .dash-card .big-num small { font-size: 18px; color: var(--text-muted); }
+  .dash-card .trend { font-size: 12px; color: var(--accent); margin-top: 4px; }
+
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #7eff00); transition: width 1s ease; }
+
+  .task-list { display: flex; flex-direction: column; gap: 10px; }
+  .task-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+  .task-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .status-pending { background: var(--accent-warm); }
+  .status-active { background: var(--accent); }
+  .status-done { background: var(--text-dim); }
+  .task-info { flex: 1; }
+  .task-info strong { display: block; font-weight: 500; }
+  .task-info span { font-size: 11px; color: var(--text-muted); }
+  .task-pts { font-size: 12px; font-weight: 600; color: var(--accent); }
+
+  /* ── HOW IT WORKS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .step-item {
+    background: var(--bg);
+    padding: 36px 28px;
+    transition: background 0.2s;
+  }
+  .step-item:hover { background: var(--surface); }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--border-bright);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step-item h4 { font-size: 17px; font-weight: 500; margin-bottom: 8px; }
+  .step-item p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── REWARDS ── */
+  .rewards-wrap {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .rewards-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .rewards-inner { grid-template-columns: 1fr; gap: 40px; } }
+
+  .rewards-left h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .rewards-left h2 em { font-style: italic; color: var(--accent); }
+  .rewards-left p { color: var(--text-muted); font-size: 15px; line-height: 1.7; margin-bottom: 28px; }
+
+  .reward-items { display: flex; flex-direction: column; gap: 12px; }
+  .reward-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .reward-item:hover { border-color: rgba(184,240,60,0.3); background: var(--accent-dim); }
+  .reward-item .ri-icon { font-size: 22px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border-radius: 10px; flex-shrink: 0; }
+  .reward-item .ri-text strong { display: block; font-size: 14px; font-weight: 500; }
+  .reward-item .ri-text span { font-size: 12px; color: var(--text-muted); }
+  .reward-item .ri-pts { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--accent); }
+
+  .points-wallet {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .points-wallet::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(184,240,60,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .wallet-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
+  .wallet-balance {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .wallet-balance small { font-size: 22px; color: var(--text-muted); }
+  .wallet-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .wallet-activity { display: flex; flex-direction: column; gap: 10px; }
+  .wa-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+  .wa-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .wa-text { flex: 1; }
+  .wa-text strong { display: block; font-weight: 500; font-size: 13px; }
+  .wa-text span { font-size: 11px; color: var(--text-muted); }
+  .wa-pts { font-weight: 600; }
+  .wa-earn { color: var(--accent); }
+  .wa-spend { color: var(--accent-warm); }
+
+  /* ── IMPACT ── */
+  .impact-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  @media (max-width: 640px) { .impact-strip { grid-template-columns: repeat(2, 1fr); } }
+
+  .impact-item {
+    background: var(--bg);
+    padding: 40px 28px;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .impact-item:hover { background: var(--surface); }
+  .impact-num {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .impact-num sup { font-size: 20px; color: var(--accent); }
+  .impact-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; }
+
+  /* ── PROVIDER TYPES ── */
+  .providers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .provider-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .provider-chip:hover { border-color: var(--border-bright); color: var(--text); background: var(--surface2); transform: translateY(-2px); }
+  .provider-chip .pc-icon { font-size: 30px; }
+
+  /* ── DONATION CTA ── */
+  .donation-cta {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 640px) { .donation-cta { grid-template-columns: 1fr; padding: 36px 24px; } }
+  .donation-cta::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(240,168,60,0.1) 0%, transparent 70%);
+  }
+  .donation-cta h3 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 400;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .donation-cta h3 em { font-style: italic; color: var(--accent-warm); }
+  .donation-cta p { font-size: 15px; color: var(--text-muted); max-width: 420px; }
+  .donation-amounts { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+  .amount-chip {
+    padding: 8px 18px;
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .amount-chip:hover, .amount-chip.active { background: var(--accent-warm-dim); border-color: rgba(240,168,60,0.3); color: var(--accent-warm); }
+  .btn-donate { background: var(--accent-warm); color: #1A0800; font-weight: 700; padding: 14px 28px; font-size: 15px; border-radius: 40px; border: none; font-family: var(--font-body); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .btn-donate:hover { background: #ffbd5e; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,168,60,0.3); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 64px 24px 32px;
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 52px;
+  }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .footer-top { grid-template-columns: 1fr; } }
+
+  .footer-brand .logo { font-size: 24px; display: block; margin-bottom: 12px; }
+  .footer-brand p { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 220px; }
+
+  .footer-col h6 { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--text); }
+
+  .footer-social { display: flex; gap: 10px; margin-top: 20px; }
+  .social-btn {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--border-bright); color: var(--text); }
+
+  .app-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .app-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .app-btn:hover { border-color: var(--border-bright); background: var(--surface2); }
+  .app-btn .ab-icon { font-size: 20px; }
+  .app-btn .ab-text { display: flex; flex-direction: column; }
+  .app-btn .ab-text small { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .app-btn .ab-text strong { font-size: 13px; color: var(--text); font-weight: 500; }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom p { font-size: 12px; color: var(--text-dim); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    max-width: 440px;
+    width: 100%;
+    transform: translateY(20px) scale(0.97);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal h3 { font-family: var(--font-display); font-size: 26px; font-weight: 500; margin-bottom: 6px; }
+  .modal p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: var(--surface2); border: none; width: 32px; height: 32px; border-radius: 50%; color: var(--text-muted); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .modal-close:hover { color: var(--text); }
+
+  .form-field { margin-bottom: 16px; }
+  .form-field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .form-field input, .form-field select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-field input:focus, .form-field select:focus { border-color: rgba(184,240,60,0.4); }
+  .form-field select option { background: var(--surface); }
+
+  /* ── LOCATION DROPDOWN ── */
+  .location-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
+    padding: 8px;
+    min-width: 220px;
+    z-index: 50;
+    display: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .location-dropdown.open { display: block; }
+  .location-dropdown .city-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text-muted);
+  }
+  .location-dropdown .city-item:hover { background: var(--surface2); color: var(--text); }
+  .location-dropdown .city-item.active { color: var(--accent); }
+
+  /* ── MISC ── */
+  .divider { height: 1px; background: var(--border); margin: 0; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 40px;
+    font-size: 11px; font-weight: 500;
+  }
+  .chip-green { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(184,240,60,0.2); }
+
+  .volunteer-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 40px;
+    background: rgba(60,184,240,0.1);
+    border: 1px solid rgba(60,184,240,0.2);
+    font-size: 12px; color: var(--accent-blue);
+    font-weight: 500;
+  }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Mobile nav */
+  .mobile-nav-btn { display: none; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; color: var(--text-muted); cursor: pointer; font-size: 18px; }
+  @media (max-width: 640px) { .mobile-nav-btn { display: flex; } .topbar-center { display: none; } .topbar .points-badge { display: none; } }
+
+  /* Floating action */
+  .fab {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 90;
+    width: 56px; height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 8px 24px rgba(184,240,60,0.35);
+    transition: all 0.3s;
+  }
+  .fab:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 12px 32px rgba(184,240,60,0.45); }
+  @media (min-width: 900px) { .fab { display: none; } }
+
+  /* Notification */
+  .toast {
+    position: fixed; bottom: 90px; right: 24px; z-index: 99;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 13px;
+    max-width: 280px;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast strong { display: block; font-weight: 600; margin-bottom: 2px; }
+  .toast span { color: var(--text-muted); }
+
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<header class="topbar">
+  <div class="logo">Nourish<span>Net</span></div>
+
+  <div class="topbar-center" style="position:relative;">
+    <button class="location-btn" id="locationBtn" onclick="toggleLocation()">
+      <span class="dot"></span>
+      <span id="selectedCity">Chennai</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="location-dropdown" id="locationDropdown">
+      <div class="city-item active" onclick="selectCity(this,'Chennai')">🌊 Chennai</div>
+      <div class="city-item" onclick="selectCity(this,'Mumbai')">🏙️ Mumbai</div>
+      <div class="city-item" onclick="selectCity(this,'Delhi')">🏛️ Delhi</div>
+      <div class="city-item" onclick="selectCity(this,'Bangalore')">💻 Bangalore</div>
+      <div class="city-item" onclick="selectCity(this,'Hyderabad')">🌶️ Hyderabad</div>
+      <div class="city-item" onclick="selectCity(this,'Kolkata')">🎭 Kolkata</div>
+      <div class="city-item" onclick="selectCity(this,'Pune')">🎓 Pune</div>
+      <div class="city-item" onclick="selectCity(this,'Ahmedabad')">🪁 Ahmedabad</div>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <button class="lang-btn">🌐 EN</button>
+    <div class="points-badge" onclick="openModal('rewards')">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="7,1 8.5,5 13,5 9.5,7.5 10.9,12 7,9.5 3.1,12 4.5,7.5 1,5 5.5,5" fill="currentColor"/></svg>
+      1,240 pts
+    </div>
+    <button class="btn btn-ghost" onclick="openModal('signin')">Sign In</button>
+    <button class="btn btn-primary" onclick="openModal('getstarted')">Get Started</button>
+    <button class="mobile-nav-btn">☰</button>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-tag"><span class="pulse"></span> Live in 8 Indian cities · Zero food waste initiative</div>
+
+  <h1>
+    Turn <em>excess</em> into<br>
+    <span class="line2">someone's next meal</span>
+  </h1>
+
+  <p class="hero-sub">
+    NourishNet bridges food providers with those who need it most — through donations, low-cost distribution, and a reward ecosystem that makes giving feel good.
+  </p>
+
+  <div class="hero-ctas">
+    <button class="btn btn-primary" style="padding:12px 28px;font-size:15px;" onclick="scrollToRoles()">Start Contributing →</button>
+    <button class="btn btn-ghost" style="padding:12px 28px;font-size:15px;" onclick="openModal('howitworks')">How it works</button>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">48K+</div><div class="stat-label">Meals Shared</div></div>
+    <div class="stat"><div class="stat-num">1.2K</div><div class="stat-label">Active Providers</div></div>
+    <div class="stat"><div class="stat-num">320</div><div class="stat-label">Volunteers</div></div>
+    <div class="stat"><div class="stat-num">9.8T</div><div class="stat-label">Waste Prevented</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── IMPACT STRIP ── -->
+<div class="impact-strip">
+  <div class="impact-item reveal"><div class="impact-num">48<sup>K</sup></div><div class="impact-label">Meals Redistributed</div></div>
+  <div class="impact-item reveal"><div class="impact-num">9.8<sup>T</sup></div><div class="impact-label">Food Waste Prevented</div></div>
+  <div class="impact-item reveal"><div class="impact-num">320<sup>+</sup></div><div class="impact-label">Active Volunteers</div></div>
+  <div class="impact-item reveal"><div class="impact-num">₹2.4<sup>L</sup></div><div class="impact-label">Funds Raised</div></div>
+</div>
+
+<!-- ── ROLE SELECTION ── -->
+<div id="roles" style="background:var(--bg);">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Step 01</div>
+      <h2 class="section-title">How do you want to <em>participate?</em></h2>
+      <p class="section-sub">Choose your role to get a personalised experience tailored to your goals.</p>
+    </div>
+    <div class="role-grid reveal">
+      <div class="role-card" data-role="provider" onclick="selectRole(this)">
+        <div class="role-arrow">→</div>
+        <div class="role-icon">🍽️</div>
+        <h3>Provider</h3>
+        <p>Restaurants, households, corporates — donate or sell surplus food with full tracking and reward points.</p>
+      </div>
+      <div class="role-card" data-role="consumer" onclick="selectRole(this)">
+        <div class="role-arrow">→</div>
+        <div class="role-icon">🤲</div>
+        <h3>Consumer</h3>
+        <p>Access free meals, redeem reward points, or purchase food at minimal cost based on your eligibility.</p>
+      </div>
+      <div class="role-card" data-role="volunteer" onclick="selectRole(this)">
+        <div class="role-arrow">→</div>
+        <div class="role-icon">🚴</div>
+        <h3>Volunteer</h3>
+        <p>Pick up and deliver food to those in need. Earn reward points and make a tangible difference daily.</p>
+      </div>
+      <div class="role-card" data-role="sponsor" onclick="selectRole(this)">
+        <div class="role-arrow">→</div>
+        <div class="role-icon">💰</div>
+        <h3>Sponsor</h3>
+        <p>Donate funds to purchase and distribute food at scale. Track your impact with live analytics.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CATEGORIES ── -->
+<div class="categories-wrap" id="categories">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Step 02</div>
+      <h2 class="section-title">Browse <em>available</em> food</h2>
+      <p class="section-sub">Fresh, nearly-expiring, and grocery items available in your area right now.</p>
+    </div>
+
+    <div class="category-tabs reveal">
+      <button class="cat-tab active" onclick="filterCategory(this,'all')">🍱 All Items</button>
+      <button class="cat-tab" onclick="filterCategory(this,'meals')">🍛 Meals</button>
+      <button class="cat-tab" onclick="filterCategory(this,'bakery')">🥐 Bakery</button>
+      <button class="cat-tab" onclick="filterCategory(this,'chats')">🥙 Chats & Snacks</button>
+      <button class="cat-tab" onclick="filterCategory(this,'beverages')">🧃 Beverages</button>
+      <button class="cat-tab" onclick="filterCategory(this,'grocery')">🥫 Expiring Grocery</button>
+      <button class="cat-tab" onclick="filterCategory(this,'fruits')">🥦 Fruits & Veg</button>
+    </div>
+
+    <div class="food-grid reveal" id="foodGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── DASHBOARDS ── -->
+<div style="background:var(--bg);">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Dashboards</div>
+      <h2 class="section-title">Everything you need, <em>in one view</em></h2>
+    </div>
+
+    <div class="tabs-nav reveal">
+      <button class="tab-btn active" onclick="switchTab(this,'consumer')">Consumer</button>
+      <button class="tab-btn" onclick="switchTab(this,'provider')">Provider</button>
+      <button class="tab-btn" onclick="switchTab(this,'volunteer')">Volunteer</button>
+      <button class="tab-btn" onclick="switchTab(this,'sponsor')">Sponsor</button>
+    </div>
+
+    <!-- Consumer -->
+    <div class="dashboard-panel active" id="panel-consumer">
+      <div class="dash-grid">
+        <div class="dash-card"><h5>Orders Received</h5><div class="big-num">14 <small>this month</small></div><div class="trend">↑ 3 more than last month</div></div>
+        <div class="dash-card">
+          <h5>Points Balance</h5>
+          <div class="big-num">1,240 <small>pts</small></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:62%"></div></div>
+          <div class="trend" style="margin-top:6px;">620 pts to next reward tier</div>
+        </div>
+        <div class="dash-card" style="grid-column:1/-1;">
+          <h5>Recent Activity</h5>
+          <div class="task-list">
+            <div class="task-item"><div class="task-status status-active"></div><div class="task-info"><strong>Biryani Meal Pack ×2</strong><span>From Hotel Saravana · Arriving in 15 min</span></div><div class="volunteer-badge">Free</div></div>
+            <div class="task-item"><div class="task-status status-done"></div><div class="task-info"><strong>Bread Loaves ×3</strong><span>Modern Bakery · Delivered</span></div><div class="task-pts">−80 pts</div></div>
+            <div class="task-item"><div class="task-status status-pending"></div><div class="task-info"><strong>Mixed Vegetables 1kg</strong><span>Available nearby · Pickup</span></div><div class="chip chip-green">₹0</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Provider -->
+    <div class="dashboard-panel" id="panel-provider">
+      <div class="dash-grid">
+        <div class="dash-card"><h5>Meals Donated</h5><div class="big-num">342</div><div class="trend">↑ +24 this week</div></div>
+        <div class="dash-card"><h5>Rewards Earned</h5><div class="big-num">4,810 <small>pts</small></div><div class="trend">↑ Worth ₹481 in redemptions</div></div>
+        <div class="dash-card" style="grid-column:1/-1;">
+          <h5>Active Listings</h5>
+          <div class="task-list">
+            <div class="task-item"><div class="task-status status-active"></div><div class="task-info"><strong>Chicken Biryani — 20 portions</strong><span>Expiry: Today 9pm · Free donation</span></div><span style="font-size:12px;color:var(--accent)">5 claimed</span></div>
+            <div class="task-item"><div class="task-status status-pending"></div><div class="task-info"><strong>Assorted Pastries — 40 pcs</strong><span>Expiry: Tomorrow 8am · ₹5/pc</span></div><span style="font-size:12px;color:var(--accent-warm)">Pending pickup</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volunteer -->
+    <div class="dashboard-panel" id="panel-volunteer">
+      <div class="dash-grid">
+        <div class="dash-card"><h5>Deliveries Completed</h5><div class="big-num">87</div><div class="trend">↑ Top 10% this month</div></div>
+        <div class="dash-card"><h5>Points This Month</h5><div class="big-num">2,340 <small>pts</small></div><div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div></div>
+        <div class="dash-card" style="grid-column:1/-1;">
+          <h5>Available Tasks</h5>
+          <div class="task-list">
+            <div class="task-item"><div class="task-status status-active"></div><div class="task-info"><strong>Pickup: Adyar to Besant Nagar</strong><span>Hotel Vivanta → Old Age Home · 3.2km</span></div><div class="task-pts">+120 pts</div></div>
+            <div class="task-item"><div class="task-status status-pending"></div><div class="task-info"><strong>Delivery: T.Nagar to Tambaram</strong><span>Corporate canteen surplus · 8.4km</span></div><div class="task-pts">+220 pts</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sponsor -->
+    <div class="dashboard-panel" id="panel-sponsor">
+      <div class="dash-grid">
+        <div class="dash-card"><h5>Total Sponsored</h5><div class="big-num">₹24,500</div><div class="trend">Across 6 campaigns</div></div>
+        <div class="dash-card"><h5>Meals Enabled</h5><div class="big-num">1,180</div><div class="trend">↑ 48 meals this week</div></div>
+        <div class="dash-card" style="grid-column:1/-1;">
+          <h5>Impact Overview</h5>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;">
+            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);"><div style="font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--accent);">320</div><div style="font-size:12px;color:var(--text-muted);">Children Fed</div></div>
+            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);"><div style="font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--accent-warm);">145</div><div style="font-size:12px;color:var(--text-muted);">Elderly Supported</div></div>
+            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);"><div style="font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--accent-blue);">715</div><div style="font-size:12px;color:var(--text-muted);">Others Reached</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Process</div>
+      <h2 class="section-title">Simple steps, <em>real impact</em></h2>
+    </div>
+    <div class="steps-grid reveal">
+      <div class="step-item"><div class="step-num">01</div><h4>List or Discover</h4><p>Providers upload surplus food with photos, quantity, and expiry. Consumers browse by category, distance, or availability type.</p></div>
+      <div class="step-item"><div class="step-num">02</div><h4>Choose Your Mode</h4><p>Donate freely, sell at a discount, or contribute via reward points. Consumers access based on eligibility.</p></div>
+      <div class="step-item"><div class="step-num">03</div><h4>Coordinate Pickup</h4><p>Self-pickup, self-delivery, or assign a volunteer. Real-time tracking keeps everyone informed.</p></div>
+      <div class="step-item"><div class="step-num">04</div><h4>Earn & Redeem</h4><p>Providers earn reward points for donations. Redeem for food items, essentials, or platform credits.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── REWARDS ── -->
+<div class="rewards-wrap">
+  <div class="rewards-inner">
+    <div class="rewards-left reveal">
+      <div class="section-tag">▸ Reward System</div>
+      <h2>Give food,<br>earn <em>rewards</em></h2>
+      <p>Every donation you make earns points that can be redeemed for food items, household essentials, and platform credits. A circular economy that rewards generosity.</p>
+      <div class="reward-items">
+        <div class="reward-item"><div class="ri-icon">🍱</div><div class="ri-text"><strong>Meal Voucher</strong><span>1 full meal for a needy family</span></div><div class="ri-pts">200 pts</div></div>
+        <div class="reward-item"><div class="ri-icon">🛒</div><div class="ri-text"><strong>Grocery Basket</strong><span>Essential items package</span></div><div class="ri-pts">500 pts</div></div>
+        <div class="reward-item"><div class="ri-icon">🎁</div><div class="ri-text"><strong>Gift Card</strong><span>Platform store credit</span></div><div class="ri-pts">1000 pts</div></div>
+        <div class="reward-item"><div class="ri-icon">📦</div><div class="ri-text"><strong>Care Package</strong><span>Full essentials kit</span></div><div class="ri-pts">2000 pts</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="points-wallet">
+        <div class="wallet-label">Your Points Wallet</div>
+        <div class="wallet-balance">1,240 <small>pts</small></div>
+        <div class="wallet-sub">≈ 6 meal vouchers available</div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">Redeem Points →</button>
+        <div style="height:16px;"></div>
+        <div class="wallet-label">Recent Activity</div>
+        <div class="wallet-activity">
+          <div class="wa-item"><div class="wa-icon" style="background:var(--accent-dim)">🍽️</div><div class="wa-text"><strong>Donated 10 meals</strong><span>Hotel Saravana · 2h ago</span></div><div class="wa-pts wa-earn">+200</div></div>
+          <div class="wa-item"><div class="wa-icon" style="background:var(--accent-warm-dim)">🛒</div><div class="wa-text"><strong>Grocery Basket</strong><span>Redeemed · Yesterday</span></div><div class="wa-pts wa-spend">−500</div></div>
+          <div class="wa-item"><div class="wa-icon" style="background:var(--accent-dim)">🚴</div><div class="wa-text"><strong>Volunteer delivery</strong><span>3 days ago</span></div><div class="wa-pts wa-earn">+120</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROVIDERS ── -->
+<div style="background:var(--bg);">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Who Provides</div>
+      <h2 class="section-title">Every kitchen can <em>contribute</em></h2>
+    </div>
+    <div class="providers-grid reveal">
+      <div class="provider-chip"><div class="pc-icon">🏨</div>Hotels & Restaurants</div>
+      <div class="provider-chip"><div class="pc-icon">🏠</div>Households</div>
+      <div class="provider-chip"><div class="pc-icon">🏢</div>Corporates</div>
+      <div class="provider-chip"><div class="pc-icon">🎪</div>Event Caterers</div>
+      <div class="provider-chip"><div class="pc-icon">🕌</div>Religious Institutions</div>
+      <div class="provider-chip"><div class="pc-icon">🌾</div>Farmers</div>
+      <div class="provider-chip"><div class="pc-icon">🛒</div>Supermarkets</div>
+      <div class="provider-chip"><div class="pc-icon">🏥</div>NGOs</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DONATION CTA ── -->
+<div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section">
+    <div class="donation-cta reveal">
+      <div>
+        <h3>Sponsor a <em>meal today</em></h3>
+        <p>Your financial contribution helps us purchase surplus food at a discount and distribute it freely to those who need it most. Every rupee counts.</p>
+        <div class="donation-amounts">
+          <button class="amount-chip" onclick="selectAmount(this)">₹50</button>
+          <button class="amount-chip active" onclick="selectAmount(this)">₹100</button>
+          <button class="amount-chip" onclick="selectAmount(this)">₹250</button>
+          <button class="amount-chip" onclick="selectAmount(this)">₹500</button>
+          <button class="amount-chip" onclick="selectAmount(this)">Custom</button>
+        </div>
+      </div>
+      <button class="btn-donate" onclick="showToast('Thank you! Your ₹100 will feed 4 people today. 🙏')">Donate Now ₹100</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo">Nourish<span>Net</span></span>
+        <p>Redistributing surplus food across India to eliminate waste and feed those in need.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#" title="LinkedIn">in</a>
+          <a class="social-btn" href="#" title="Instagram">📷</a>
+          <a class="social-btn" href="#" title="YouTube">▶</a>
+          <a class="social-btn" href="#" title="Facebook">f</a>
+          <a class="social-btn" href="#" title="X">𝕏</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h6>Sponsors</h6>
+        <ul>
+          <li><a href="#">Become a Sponsor</a></li>
+          <li><a href="#">CSR Partnerships</a></li>
+          <li><a href="#">Impact Reports</a></li>
+          <li><a href="#">Sponsor Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h6>For Users</h6>
+        <ul>
+          <li><a href="#">How it Works</a></li>
+          <li><a href="#">Reward Points</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="#">App Download</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+        <div class="app-btns">
+          <a href="#" class="app-btn"><span class="ab-icon">🍎</span><div class="ab-text"><small>Download on the</small><strong>App Store</strong></div></a>
+          <a href="#" class="app-btn"><span class="ab-icon">▶</span><div class="ab-text"><small>Get it on</small><strong>Google Play</strong></div></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h6>For Partners</h6>
+        <ul>
+          <li><a href="#">Partner With Us</a></li>
+          <li><a href="#">APIs & Integration</a></li>
+          <li><a href="#">Business Tools</a></li>
+          <li><a href="#">Volunteer Program</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h6>Learn More</h6>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Help & Support</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 NourishNet Technologies Pvt. Ltd. · Registered in India · CIN: U85300TN2025PTC123456</p>
+      <p>Not-for-profit food redistribution platform · FSSAI compliant</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── FLOATING ACTION ── -->
+<button class="fab" onclick="openModal('getstarted')" title="Get Started">+</button>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <strong id="toastTitle">Action Completed</strong>
+  <span id="toastMsg">Success</span>
+</div>
+
+<!-- ── MODALS ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const foods = [
+  { emoji:'🍛', name:'Chicken Biryani', provider:'Hotel Vivanta', dist:'1.2km', expiry:'3h', type:'free', cat:'meals' },
+  { emoji:'🥐', name:'Assorted Pastries', provider:'Modern Bakery', dist:'0.8km', expiry:'6h', type:'points', cat:'bakery' },
+  { emoji:'🫙', name:'Rice & Dal Pack', provider:'Srini Bhavan', dist:'2.1km', expiry:'2h', type:'free', cat:'meals' },
+  { emoji:'🧃', name:'Juice Bottles ×10', provider:'Café Blend', dist:'0.5km', expiry:'12h', type:'paid', cat:'beverages' },
+  { emoji:'🥦', name:'Mixed Vegetables 2kg', provider:'Farmer Ram', dist:'3.4km', expiry:'24h', type:'free', cat:'fruits' },
+  { emoji:'🍞', name:'Whole Wheat Bread', provider:'Harvest Bakery', dist:'1.8km', expiry:'8h', type:'expiring', cat:'bakery' },
+  { emoji:'🥙', name:'Pani Puri — 50 plates', provider:'Chaat Corner', dist:'0.4km', expiry:'4h', type:'free', cat:'chats' },
+  { emoji:'🥫', name:'Canned Tomatoes ×20', provider:'BigBasket Hub', dist:'2.7km', expiry:'30d', type:'expiring', cat:'grocery' },
+  { emoji:'🫓', name:'Sambar Vadai Pack', provider:'Murugan Idli', dist:'0.9km', expiry:'5h', type:'free', cat:'chats' },
+  { emoji:'🍊', name:'Oranges 3kg', provider:'Farm Fresh', dist:'4.1km', expiry:'3d', type:'points', cat:'fruits' },
+  { emoji:'☕', name:'Filter Coffee ×30', provider:'MTR Hotel', dist:'1.5km', expiry:'2h', type:'free', cat:'beverages' },
+  { emoji:'🍰', name:'Celebration Cakes ×4', provider:'Sweet House', dist:'2.2km', expiry:'1d', type:'paid', cat:'bakery' },
+];
+
+const badgeMap = { free:'badge-free', points:'badge-points', paid:'badge-paid', expiring:'badge-expiring' };
+const labelMap = { free:'Free', points:'Points', paid:'Minimal Cost', expiring:'Expiring Soon' };
+
+function renderFoods(items) {
+  const grid = document.getElementById('foodGrid');
+  grid.innerHTML = items.map(f => `
+    <div class="food-card" onclick="showToast('${f.name} added to your list! 🎉')">
+      <div class="food-card-img">
+        <span style="font-size:52px">${f.emoji}</span>
+        <span class="food-badge ${badgeMap[f.type]}">${labelMap[f.type]}</span>
+      </div>
+      <div class="food-card-body">
+        <h4>${f.name}</h4>
+        <div class="meta">
+          <span>📍 ${f.dist}</span>
+          <span>⏱ ${f.expiry}</span>
+        </div>
+        <div class="meta" style="margin-top:4px;color:var(--text-dim);">${f.provider}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderFoods(foods);
+
+// ── CATEGORY FILTER ──
+function filterCategory(btn, cat) {
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = cat === 'all' ? foods : foods.filter(f => f.cat === cat);
+  renderFoods(filtered.length ? filtered : foods);
+}
+
+// ── ROLE SELECT ──
+function selectRole(card) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const role = card.dataset.role;
+  showToast(`Welcome, ${role.charAt(0).toUpperCase()+role.slice(1)}! Scroll down to explore. 🎯`);
+  setTimeout(() => {
+    document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
+  }, 600);
+}
+
+// ── SCROLL TO ROLES ──
+function scrollToRoles() {
+  document.getElementById('roles').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── TAB SWITCHING ──
+function switchTab(btn, panel) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dashboard-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + panel).classList.add('active');
+}
+
+// ── LOCATION ──
+function toggleLocation() {
+  const dd = document.getElementById('locationDropdown');
+  dd.classList.toggle('open');
+}
+
+function selectCity(el, city) {
+  document.getElementById('selectedCity').textContent = city;
+  document.querySelectorAll('.city-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('locationDropdown').classList.remove('open');
+  showToast(`Location updated to ${city} 📍`);
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#locationBtn') && !e.target.closest('#locationDropdown')) {
+    document.getElementById('locationDropdown').classList.remove('open');
+  }
+});
+
+// ── DONATION AMOUNTS ──
+function selectAmount(btn) {
+  document.querySelectorAll('.amount-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const amount = btn.textContent.trim();
+  document.querySelector('.btn-donate').textContent = amount === 'Custom' ? 'Donate Custom Amount' : `Donate Now ${amount}`;
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  const parts = msg.split('!');
+  document.getElementById('toastTitle').textContent = parts[0] + (parts.length > 1 ? '!' : '');
+  document.getElementById('toastMsg').textContent = parts.slice(1).join('!').trim();
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── MODALS ──
+const modalContents = {
+  signin: `
+    <h3>Welcome back</h3>
+    <p>Sign in to your NourishNet account</p>
+    <div class="form-field"><label>Email or Phone</label><input type="text" placeholder="you@example.com"></div>
+    <div class="form-field"><label>Password</label><input type="password" placeholder="••••••••"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:4px;" onclick="showToast('Signed in successfully! 👋');closeModal()">Sign In</button>
+    <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-muted);">Don't have an account? <a href="#" style="color:var(--accent);">Register</a></p>
+  `,
+  getstarted: `
+    <h3>Join NourishNet</h3>
+    <p>Create your account and start making a difference</p>
+    <div class="form-field"><label>Your Name</label><input type="text" placeholder="Priya Sharma"></div>
+    <div class="form-field"><label>Mobile Number</label><input type="tel" placeholder="+91 98765 43210"></div>
+    <div class="form-field"><label>Your Role</label>
+      <select>
+        <option>Consumer</option>
+        <option>Provider</option>
+        <option>Volunteer</option>
+        <option>Sponsor</option>
+      </select>
+    </div>
+    <div class="form-field"><label>City</label>
+      <select>
+        <option>Chennai</option><option>Mumbai</option><option>Delhi</option>
+        <option>Bangalore</option><option>Hyderabad</option><option>Kolkata</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:4px;" onclick="showToast('Account created! Welcome to NourishNet 🌱');closeModal()">Create Account</button>
+  `,
+  rewards: `
+    <h3>Rewards Wallet</h3>
+    <p>Earn by giving, redeem for essentials</p>
+    <div style="text-align:center;padding:20px;background:var(--bg);border-radius:var(--radius);margin-bottom:20px;">
+      <div style="font-family:var(--font-display);font-size:52px;font-weight:500;color:var(--accent);letter-spacing:-2px;">1,240</div>
+      <div style="font-size:13px;color:var(--text-muted);">Available Points</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="reward-item"><div class="ri-icon">🍱</div><div class="ri-text"><strong>Meal Voucher</strong><span>For a needy family</span></div><div class="ri-pts">200 pts</div></div>
+      <div class="reward-item"><div class="ri-icon">🛒</div><div class="ri-text"><strong>Grocery Basket</strong><span>Essential items</span></div><div class="ri-pts">500 pts</div></div>
+      <div class="reward-item"><div class="ri-icon">🎁</div><div class="ri-text"><strong>Gift Card</strong><span>Platform credit</span></div><div class="ri-pts">1000 pts</div></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:20px;" onclick="showToast('Meal Voucher redeemed! 🎉');closeModal()">Redeem 200 Points</button>
+  `,
+  howitworks: `
+    <h3>How it works</h3>
+    <p>Four simple steps to eliminate food waste</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="task-item"><div style="width:28px;height:28px;background:var(--accent-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;">01</div><div class="task-info"><strong>List or Discover Food</strong><span>Providers upload, consumers browse by location & type</span></div></div>
+      <div class="task-item"><div style="width:28px;height:28px;background:var(--accent-warm-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent-warm);flex-shrink:0;">02</div><div class="task-info"><strong>Choose Your Mode</strong><span>Free, points-based, or minimal cost distribution</span></div></div>
+      <div class="task-item"><div style="width:28px;height:28px;background:rgba(60,184,240,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent-blue);flex-shrink:0;">03</div><div class="task-info"><strong>Coordinate Pickup</strong><span>Self-pickup, volunteer delivery, or paid partners</span></div></div>
+      <div class="task-item"><div style="width:28px;height:28px;background:var(--surface2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted);flex-shrink:0;">04</div><div class="task-info"><strong>Earn & Redeem Points</strong><span>Circular reward economy that incentivises giving</span></div></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;margin-top:20px;" onclick="scrollToRoles();closeModal()">Get Started →</button>
+  `,
+};
+
+function openModal(type) {
+  document.getElementById('modalContent').innerHTML = modalContents[type] || '';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── STAGGER GRID ITEMS ──
+setTimeout(() => {
+  document.querySelectorAll('.role-card, .food-card, .provider-chip').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.04}s`;
+  });
+}, 100);
+</script>
+</body>
+</html>

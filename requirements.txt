@@ -7,3 +7,5 @@ markdown
 openai
 supabase
 tavily-python
+fastapi
+uvicorn
